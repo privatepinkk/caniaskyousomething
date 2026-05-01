@@ -2,58 +2,116 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>最后 💘</title>
 
 <style>
 body {
-  background: #fff0f5;
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fff0f5, #ffe4e1);
   text-align: center;
   font-family: sans-serif;
-  margin-top: 120px;
   overflow: hidden;
-}
-
-h1 {
   color: #ff6b81;
 }
 
-button {
-  padding: 15px 25px;
-  font-size: 50px;
-  border: none;
-  border-radius: 20px;
-  margin: 10px;
-  cursor: pointer;
+/* กล่องหลัก */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  z-index: 1;
 }
 
+/* ปุ่ม */
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* ปุ่มชอบ */
 #likeBtn {
   background: #ff6b81;
   color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
+  font-size: 18px;
+  cursor: pointer;
   transition: 0.3s;
 }
 
+/* ปุ่มไม่ชอบ */
 #dislikeBtn {
   background: #ccc;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
   position: absolute;
+  cursor: pointer;
+}
+
+/* หัวใจลอย */
+.heart {
+  position: absolute;
+  bottom: -50px;
+  color: #ff9aa2;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h1>最后一个问题：你喜欢我吗？💘</h1>
+<div class="container">
+  <h1>最后一个问题：你喜欢我吗？💘</h1>
 
-<button id="likeBtn" onclick="love()">喜欢 💖</button>
-<button id="dislikeBtn" onmouseover="runAway()">不喜欢 😝</button>
+  <div class="buttons">
+    <button id="likeBtn" onclick="love()">喜欢 💖</button>
+    <button id="dislikeBtn" onmouseover="runAway()">不喜欢 😝</button>
+  </div>
+</div>
 
 <script>
 let size = 18;
 
 function love() {
   document.body.innerHTML = `
-    <div style="text-align:center; margin-top:100px;">
-      <img src="cat.jpg" style="width:250px;"><br>
-      <h1 style="color:#ff6b81;">我就知道，嘻嘻嘻 😏💖</h1>
+    <div style="
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      height:100dvh;
+      text-align:center;
+      color:#ff6b81;
+    ">
+      <img src="cat.jpg" style="width:250px; border-radius:20px;"><br>
+      <h1>我就知道，嘻嘻嘻 😏💖</h1>
     </div>
   `;
 }
@@ -61,16 +119,36 @@ function love() {
 function runAway() {
   let btn = document.getElementById("dislikeBtn");
 
-  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-  btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  btn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  btn.style.top = Math.random() * (window.innerHeight - 80) + "px";
 }
 
+/* ปุ่มชอบค่อย ๆ ใหญ่ขึ้น */
 setInterval(() => {
   size += 2;
   let btn = document.getElementById("likeBtn");
   btn.style.fontSize = size + "px";
   btn.style.padding = (size/2) + "px";
 }, 800);
+
+/* หัวใจลอย */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerText = "💖";
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 20) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}
+
+setInterval(createHeart, 400);
 </script>
 
 </body>

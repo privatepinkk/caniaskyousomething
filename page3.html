@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>最后 💘</title>
+
+<style>
+body {
+  background: #fff0f5;
+  text-align: center;
+  font-family: sans-serif;
+  margin-top: 120px;
+  overflow: hidden;
+}
+
+h1 {
+  color: #ff6b81;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 50px;
+  border: none;
+  border-radius: 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+#likeBtn {
+  background: #ff6b81;
+  color: white;
+  transition: 0.3s;
+}
+
+#dislikeBtn {
+  background: #ccc;
+  position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<h1>最后一个问题：你喜欢我吗？💘</h1>
+
+<button id="likeBtn" onclick="love()">喜欢 💖</button>
+<button id="dislikeBtn" onmouseover="runAway()">不喜欢 😝</button>
+
+<script>
+let size = 18;
+
+function love() {
+  document.body.innerHTML = `
+    <div style="text-align:center; margin-top:100px;">
+      <img src="cat.jpg" style="width:250px;"><br>
+      <h1 style="color:#ff6b81;">我就知道，嘻嘻嘻 😏💖</h1>
+    </div>
+  `;
+}
+
+function runAway() {
+  let btn = document.getElementById("dislikeBtn");
+
+  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+}
+
+setInterval(() => {
+  size += 2;
+  let btn = document.getElementById("likeBtn");
+  btn.style.fontSize = size + "px";
+  btn.style.padding = (size/2) + "px";
+}, 800);
+</script>
+
+</body>
+</html>

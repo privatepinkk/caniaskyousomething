@@ -19,7 +19,6 @@ body {
   overflow: hidden;
 }
 
-/* กล่องหลัก */
 .container {
   display: flex;
   flex-direction: column;
@@ -27,17 +26,10 @@ body {
   z-index: 1;
 }
 
-/* ปุ่ม */
 .buttons {
   display: flex;
   gap: 15px;
   justify-content: center;
-  flex-wrap: wrap;
-}
-
-h1 {
-  font-size: 20px;
-  margin: 0;
 }
 
 button {
@@ -55,37 +47,30 @@ img {
   position: absolute;
   opacity: 0;
   transition: 0.5s;
-  z-index: 0;
 }
 
-/* ข้อความเด้ง */
-.popupText {
-  position: absolute;
-  color: #ff4d6d;
-  font-size: 20px;
-  font-weight: bold;
-  animation: pop 1s ease;
+/* 🔥 popup ดำ */
+.popup {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 300px;
+  display: none;
+  z-index: 20;
+  text-align: left;
 }
 
-@keyframes pop {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* หัวใจลอย */
-.heart {
-  position: absolute;
-  bottom: -50px;
-  color: #ff9aa2;
-  font-size: 20px;
-  animation: floatUp 6s linear infinite;
-  opacity: 0.7;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity: 0.7; }
-  100% { transform: translateY(-110vh); opacity: 0; }
+.popup button {
+  background: none;
+  color: #4da6ff;
+  margin-top: 15px;
+  padding: 0;
 }
 </style>
 </head>
@@ -96,13 +81,19 @@ img {
   <h1>如果你在泰国想抽烟，要怎么说？🤔</h1>
 
   <div class="buttons">
-    <button onclick="showChaos()">1. สูบบุหรี่ที่ได้ไหนครับ</button>
-    <button onclick="showChaos()">2. สูบบุหรี่ที่เท่าไหร่ครับ</button>
+    <button onclick="startChaos()">สูบบุหรี่ที่ได้ไหนครับ</button>
+    <button onclick="startChaos()">สูบบุหรี่ที่เท่าไหร่ครับ</button>
   </div>
 </div>
 
+<!-- popup -->
+<div id="popup" class="popup">
+  <div>素不理帶東奶cup 😡</div>
+  <button onclick="goNext()">ปิด</button>
+</div>
+
 <script>
-function showChaos() {
+function startChaos() {
   let count = 0;
 
   let interval = setInterval(() => {
@@ -124,42 +115,17 @@ function showChaos() {
     if (count >= 40) {
       clearInterval(interval);
 
-      // แสดงข้อความ
-      let text = document.createElement("div");
-      text.className = "popupText";
-      text.innerText = "素不理帶東奶cup 😡";
-
-      text.style.left = "50%";
-      text.style.top = "50%";
-      text.style.transform = "translate(-50%, -50%)";
-
-      document.body.appendChild(text);
-
+      // 👉 แสดง popup หลังจากรูปขึ้น
       setTimeout(() => {
-        window.location.href = "page3.html";
-      }, 1500);
+        document.getElementById("popup").style.display = "block";
+      }, 300);
     }
   }, 80);
 }
 
-/* หัวใจลอย */
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerText = "💖";
-
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (15 + Math.random() * 20) + "px";
-  heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-
-  document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 6000);
+function goNext() {
+  window.location.href = "page3.html";
 }
-
-setInterval(createHeart, 400);
 </script>
 
 </body>

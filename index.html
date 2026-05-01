@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>想问你 💌</title>
+
+<style>
+body {
+  background: #fff0f5;
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 120px;
+  color: #ff6b81;
+}
+
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 50px;
+  border: none;
+  border-radius: 20px;
+  background: #ff6b81;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>我有一个问题…可以问你吗？🥺</h1>
+
+<button onclick="location.href='page2.html'">可以 💖</button>
+<button onclick="nope()">不可以 😈</button>
+
+<script>
+function nope() {
+  alert("一定要可以 😏");
+  window.location.href = "page2.html";
+}
+</script>
+
+</body>
+</html>

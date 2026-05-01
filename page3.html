@@ -19,7 +19,6 @@ body {
   color: #ff6b81;
 }
 
-/* กล่องหลัก */
 .container {
   display: flex;
   flex-direction: column;
@@ -27,7 +26,6 @@ body {
   z-index: 1;
 }
 
-/* ปุ่ม */
 .buttons {
   display: flex;
   gap: 15px;
@@ -39,48 +37,59 @@ h1 {
   font-size: 22px;
 }
 
-/* ปุ่มชอบ */
+button {
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* 💖 ปุ่มชอบ */
 #likeBtn {
   background: #ff6b81;
   color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 12px 20px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
+  animation: pulse 1s infinite alternate;
 }
 
-/* ปุ่มไม่ชอบ */
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* 😈 ปุ่มไม่ชอบ */
 #dislikeBtn {
   background: #ccc;
-  border: none;
-  border-radius: 20px;
-  padding: 12px 20px;
-  position: absolute;
-  cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 
-/* หัวใจลอย */
+/* ข้อความแซว */
+.tease {
+  position: absolute;
+  color: #ff4d6d;
+  font-weight: bold;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 💖 หัวใจลอย */
 .heart {
   position: absolute;
   bottom: -50px;
-  color: #ff9aa2;
   font-size: 20px;
   animation: floatUp 6s linear infinite;
   opacity: 0.7;
-  z-index: 0;
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(-110vh);
-    opacity: 0;
-  }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-110vh); opacity: 0; }
 }
 </style>
 </head>
@@ -92,38 +101,16 @@ h1 {
 
   <div class="buttons">
     <button id="likeBtn" onclick="love()">喜欢 💖</button>
-    <button id="dislikeBtn" onmouseover="runAway()">不喜欢 😝</button>
+    <button id="dislikeBtn">不喜欢 😝</button>
   </div>
 </div>
 
 <script>
 let size = 18;
+let moved = false;
+let speed = 1;
 
-function love() {
-  document.body.innerHTML = `
-    <div style="
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      height:100dvh;
-      text-align:center;
-      color:#ff6b81;
-    ">
-      <img src="cat.jpg" style="width:250px; border-radius:20px;"><br>
-      <h1>我就知道，嘻嘻嘻 😏💖</h1>
-    </div>
-  `;
-}
-
-function runAway() {
-  let btn = document.getElementById("dislikeBtn");
-
-  btn.style.left = Math.random() * (window.innerWidth - 120) + "px";
-  btn.style.top = Math.random() * (window.innerHeight - 80) + "px";
-}
-
-/* ปุ่มชอบค่อย ๆ ใหญ่ขึ้น */
+/* 💖 ปุ่มชอบโต */
 setInterval(() => {
   size += 2;
   let btn = document.getElementById("likeBtn");
@@ -131,7 +118,102 @@ setInterval(() => {
   btn.style.padding = (size/2) + "px";
 }, 800);
 
-/* หัวใจลอย */
+/* 😈 หนีแบบฉลาด */
+function runAway(e) {
+  let btn = document.getElementById("dislikeBtn");
+
+  if (!moved) {
+    btn.style.position = "absolute";
+    moved = true;
+  }
+
+  let x = Math.random() * (window.innerWidth - 120);
+  let y = Math.random() * (window.innerHeight - 80);
+
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+
+  speed += 0.3;
+
+  tease(x, y);
+}
+
+/* 🧠 ตรวจจับเข้าใกล้ */
+document.addEventListener("mousemove", (e) => {
+  let btn = document.getElementById("dislikeBtn");
+  let rect = btn.getBoundingClientRect();
+
+  let dx = e.clientX - (rect.left + rect.width/2);
+  let dy = e.clientY - (rect.top + rect.height/2);
+  let dist = Math.sqrt(dx*dx + dy*dy);
+
+  if (dist < 120 / speed) {
+    runAway();
+  }
+});
+
+/* 📱 มือถือ */
+document.getElementById("dislikeBtn").addEventListener("touchstart", runAway);
+document.getElementById("dislikeBtn").addEventListener("mouseover", runAway);
+
+/* 😏 ข้อความแซว */
+function tease(x, y) {
+  const msgs = ["抓不到我 😝", "不行哦 😏", "再试试？", "哈哈哈 😂"];
+
+  let t = document.createElement("div");
+  t.className = "tease";
+  t.innerText = msgs[Math.floor(Math.random()*msgs.length)];
+
+  t.style.left = x + "px";
+  t.style.top = y + "px";
+
+  document.body.appendChild(t);
+
+  setTimeout(() => t.remove(), 800);
+}
+
+/* 💥 กดชอบ */
+function love() {
+  explodeHearts();
+
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100dvh;
+        text-align:center;
+        color:#ff6b81;
+      ">
+        <img src="cat.jpg" style="width:250px; border-radius:20px;"><br>
+        <h1>我就知道，嘻嘻嘻 😏💖</h1>
+      </div>
+    `;
+  }, 800);
+}
+
+/* 💖 ระเบิดหัวใจ */
+function explodeHearts() {
+  for (let i = 0; i < 30; i++) {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💖";
+
+    h.style.left = "50%";
+    h.style.top = "50%";
+
+    h.style.transform = `translate(-50%, -50%) 
+      translate(${(Math.random()-0.5)*400}px, ${(Math.random()-0.5)*400}px)`;
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 1000);
+  }
+}
+
+/* 💖 หัวใจลอยปกติ */
 function createHeart() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
@@ -143,9 +225,7 @@ function createHeart() {
 
   document.body.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 6000);
+  setTimeout(() => heart.remove(), 6000);
 }
 
 setInterval(createHeart, 400);

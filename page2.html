@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>问题 💭</title>
+
+<style>
+body {
+  background: #fff0f5;
+  text-align: center;
+  font-family: sans-serif;
+  margin-top: 100px;
+  overflow: hidden;
+  color: #ff6b81;
+}
+
+button {
+  padding: 12px 20px;
+  margin: 10px;
+  font-size: 50px;
+  border: none;
+  border-radius: 20px;
+  background: #ff6b81;
+  color: white;
+  cursor: pointer;
+}
+
+img {
+  position: absolute;
+  opacity: 0;
+  transition: 0.5s;
+}
+</style>
+</head>
+
+<body>
+
+<h1>如果你在泰国想抽烟，要怎么说？🤔</h1>
+
+<button onclick="wrong()">素不理東帶奶cup</button>
+<button onclick="correct()">素不理帶東奶cup</button>
+
+<script>
+function correct() {
+  window.location.href = "page3.html";
+}
+
+function wrong() {
+  let count = 0;
+
+  let interval = setInterval(() => {
+    let img = document.createElement("img");
+    img.src = "coffee.jpg";
+
+    img.style.left = Math.random() * window.innerWidth + "px";
+    img.style.top = Math.random() * window.innerHeight + "px";
+    img.style.width = (60 + Math.random() * 120) + "px";
+
+    document.body.appendChild(img);
+
+    setTimeout(() => {
+      img.style.opacity = 1;
+    }, 50);
+
+    count++;
+
+    if (count >= 50) {
+      clearInterval(interval);
+
+      setTimeout(() => {
+        alert("你忘了吗 😭");
+        window.location.href = "page3.html";
+      }, 1000);
+    }
+  }, 80);
+}
+</script>
+
+</body>
+</html>
